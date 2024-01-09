@@ -7,35 +7,25 @@ export const Body = () => {
   const [starwars, setStarWars] = useState([]);
   const [planets, setPlanets] = useState([]);
 
-  const { actions } = useContext(Context);
+  const { actions,store } = useContext(Context);
 
   useEffect(() => {
-    const fetchPlanets = async () => {
-      const response = await fetch("https://www.swapi.tech/api/planets", {
-        method: "GET",
-      });
-      const data = await response.json();
-      setPlanets(data.results);
-    };
-    fetchPlanets();
+
+    const fetchData = async ()=>{
+
+      actions.updatePlanets()
+      actions.updateCharacters()
+      
+    }
+   fetchData()
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("https://www.swapi.tech/api/people", {
-        method: "GET",
-      });
-      const data = await response.json();
-      setStarWars(data.results);
-    };
-    fetchData();
-  }, []);
-
+  
   return (
     <>
       <h1 style={{ marginLeft: 70, color: "red" }}>Characters</h1>
       <div className="container mb-3 mt-3">
-        {starwars.map((character, index) => (
+        {store.characters.map((character, index) => (
           <div className="card" key={index}>
             <img
               src={
@@ -77,7 +67,7 @@ export const Body = () => {
       <h1 style={{ marginLeft: 70, color: "red" }}>Planets</h1>
       <div className="container ">
         {console.log(planets)}
-        {planets.map((planet) => (
+        {store.planets.map((planet) => (
           <div className="card" key={planet.name}>
             <img
               src="https://www.hemomadrid.com/wp-content/uploads/2015/09/imagen-vacia.jpg"
